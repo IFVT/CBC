@@ -1,0 +1,11 @@
+{
+  "name": "cbc-app-workspace",
+  "private": true,
+  "scripts": {
+    "install:app": "npm --prefix ./CBC-app install",
+    "dev": "npm --prefix ./CBC-app run dev",
+    "build": "npm --prefix ./CBC-app run build",
+    "lint": "npm --prefix ./CBC-app run lint",
+    "preview": "npm --prefix ./CBC-app run preview"
+  }
+}
