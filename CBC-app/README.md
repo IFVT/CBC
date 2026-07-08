@@ -1,4 +1,36 @@
-# React + TypeScript + Vite
+# CORE Build Consulting
+
+One-page marketing site — React + Vite + TypeScript + Tailwind CSS v4, with EN/ES
+i18n and a Resend-powered contact form.
+
+## Contact form (Resend)
+
+The contact form posts to a serverless function at `api/contact.ts` which sends the
+enquiry via [Resend](https://resend.com). The API key lives only on the server.
+
+### Environment variables
+
+Copy `.env.example` to `.env` for local dev, and set the same variables in your Vercel
+project (Project → Settings → Environment Variables):
+
+| Variable         | Required | Notes |
+|------------------|----------|-------|
+| `RESEND_API_KEY` | yes      | From resend.com/api-keys |
+| `CONTACT_TO`     | no       | Recipient (default `Corebuildconsulting@gmail.com`) |
+| `CONTACT_FROM`   | no       | Verified-domain sender; defaults to Resend's test sender |
+
+### Deploying on Vercel
+
+This repo is a small workspace wrapper: the actual app lives in the nested `CBC-app/`
+folder. When importing into Vercel, set **Root Directory = `CBC-app`** (Vercel then
+auto-detects Vite and picks up the `api/` folder). Add the env vars above and deploy.
+
+For local testing of the `/api` function use `vercel dev` (plain `vite` does not run
+serverless functions).
+
+---
+
+## React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

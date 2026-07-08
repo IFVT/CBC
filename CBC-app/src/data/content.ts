@@ -121,6 +121,9 @@ type ContactForm = {
   labelMessage: string
   buttonText: string
   note: string
+  sending: string
+  success: string
+  error: string
 }
 
 type FooterColumn = {
@@ -389,6 +392,9 @@ const en: SiteContent = {
     labelMessage: "Briefly — what are you trying to build, structure or scale?",
     buttonText: "Send enquiry",
     note: "We reply personally — no automated funnels.",
+    sending: "Sending…",
+    success: "Thank you — your message is on its way. We'll be in touch shortly.",
+    error: "Something went wrong. Please try again or email us directly.",
   },
   FOOTER_COLUMNS: [
     {
@@ -600,6 +606,9 @@ const es: SiteContent = {
     labelMessage: "En breve, ¿qué buscas construir, estructurar o escalar?",
     buttonText: "Enviar consulta",
     note: "Respondemos personalmente, sin embudos automatizados.",
+    sending: "Enviando…",
+    success: "Gracias — tu mensaje va en camino. Te contactaremos muy pronto.",
+    error: "Algo salió mal. Inténtalo de nuevo o escríbenos directamente.",
   },
   FOOTER_COLUMNS: [
     {
