@@ -119,9 +119,9 @@ function Contact() {
     return(
         <section
             id="contact"
-            className="bg-green-deep text-cream py-24 px-16"
+            className="bg-green-deep text-cream py-16 md:py-24 px-6 sm:px-10 lg:px-16"
         >
-            <div className="max-w-7xl mx-auto grid grid-cols-2 gap-24">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
 
                 {/* Columna izquierda */}
                 <div ref={refLeft} className="reveal flex flex-col gap-8 max-w-lg">
@@ -129,7 +129,7 @@ function Contact() {
                         <p className="font-mono text-xs tracking-widest uppercase opacity-60">
                             {CONTACT_HEADER.eyebrow}
                         </p>
-                        <h2 className="font-serif text-5xl leading-tight">
+                        <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl leading-tight">
                             {CONTACT_HEADER.title} <em className="italic">{CONTACT_HEADER.titleItalic}</em>{CONTACT_HEADER.titleTail}
                         </h2>
                         <p className="text-sm leading-relaxed opacity-60">
@@ -155,11 +155,11 @@ function Contact() {
                 </div>
 
                 {/* Columna derecha — Formulario */}
-                <form ref={refRight} onSubmit={handleSubmit} noValidate className="reveal grid grid-cols-2 gap-6 content-start">
+                <form ref={refRight} onSubmit={handleSubmit} noValidate className="reveal grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 content-start">
 
                     {status === "success" ? (
                     /* Panel de confirmación */
-                    <div className="col-span-2 min-h-[420px] flex flex-col items-center justify-center text-center gap-6 py-12">
+                    <div className="sm:col-span-2 min-h-[420px] flex flex-col items-center justify-center text-center gap-6 py-12">
                         <div className="w-16 h-16 rounded-full border border-cream/40 flex items-center justify-center">
                             <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                 <path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
@@ -271,7 +271,7 @@ function Contact() {
                     </div>
 
                     {/* Mensaje */}
-                    <div className="col-span-2 flex flex-col gap-2">
+                    <div className="sm:col-span-2 flex flex-col gap-2">
                         <label htmlFor="contact-message" className="font-mono text-xs tracking-widest uppercase opacity-60">
                             {CONTACT_FORM.labelMessage}
                         </label>
@@ -289,7 +289,7 @@ function Contact() {
 
                     {/* Notificación de validación */}
                     {formError && (
-                        <div className="col-span-2 border border-[#e88]/40 bg-[#e88]/10 px-4 py-3">
+                        <div className="sm:col-span-2 border border-[#e88]/40 bg-[#e88]/10 px-4 py-3">
                             <p role="alert" className="text-[#e88] text-xs leading-relaxed">
                                 {formError}
                             </p>
@@ -297,7 +297,7 @@ function Contact() {
                     )}
 
                     {/* Submit */}
-                    <div className="col-span-2 flex items-center justify-between border-t border-green-soft pt-6 gap-6">
+                    <div className="sm:col-span-2 flex flex-col sm:flex-row items-start sm:items-center justify-between border-t border-green-soft pt-6 gap-4 sm:gap-6">
                         <p
                             aria-live="polite"
                             className={`font-mono text-xs tracking-widest uppercase max-w-xs ${statusClass}`}

@@ -10,27 +10,27 @@ function VisionMission() {
         <section
             ref={refGrid}
             id="about"
-            className="reveal grid grid-cols-2 text-cream"
+            className="reveal grid grid-cols-1 md:grid-cols-2 text-cream"
         >
             <div
-                className="bg-green px-16 py-24 flex flex-col gap-8 border-r border-green-soft"
+                className="bg-green px-6 sm:px-10 lg:px-16 py-16 md:py-24 flex flex-col gap-6 md:gap-8 border-b md:border-b-0 md:border-r border-green-soft"
             >
                 <p
                     className="font-mono text-xs tracking-widest uppercase opacity-60"
                 >{VISION.eyebrow}</p>
                 <p
-                    className="font-serif text-2xl leading-relaxed max-w-lg"
+                    className="font-serif text-xl sm:text-2xl leading-relaxed max-w-lg"
                 >{VISION.lede}</p>
             </div>
 
             <div
-                className="bg-green-mid px-16 py-24 flex flex-col gap-8"
+                className="bg-green-mid px-6 sm:px-10 lg:px-16 py-16 md:py-24 flex flex-col gap-6 md:gap-8"
             >
                 <p
                     className="font-mono text-xs tracking-widest uppercase opacity-60"
                 >{MISSION.eyebrow}</p>
                 <p
-                    className="font-serif text-2xl leading-relaxed max-w-lg"
+                    className="font-serif text-xl sm:text-2xl leading-relaxed max-w-lg"
                 >{MISSION.lede}</p>
             </div>
 

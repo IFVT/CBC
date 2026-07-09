@@ -10,19 +10,19 @@ function Values() {
     return(
         <section
             id="values"
-            className="bg-bone text-green-deep py-24 px-16"
+            className="bg-bone text-green-deep py-16 md:py-24 px-6 sm:px-10 lg:px-16"
         >
             <div
-                className="reveal max-w-7xl mx-auto mb-20"
+                className="reveal max-w-7xl mx-auto mb-10 md:mb-20"
                 ref={refHeader}
             >
                 <p
                     className="font-mono text-xs tracking-widest uppercase opacity-60 mb-4"
                 >{VALUES_HEADER.eyebrow}</p>
                 <h2
-                    className="font-serif text-5xl leading-tight"
+                    className="font-serif text-3xl sm:text-4xl lg:text-5xl leading-tight"
                 >{VALUES_HEADER.title}<em className="italic">{VALUES_HEADER.titleItalic}</em></h2>
-            
+
             </div>
 
             <div
@@ -32,7 +32,7 @@ function Values() {
                 {VALUES.map((value)=>(
                     <div
                         key={value.title}
-                        className="p-8 border-r border-green-deep/20 last:border-r-0 flex flex-col gap-4 hover:bg-green-deep/5 transition-colors duration-300"
+                        className="p-6 sm:p-8 border-r border-green-deep/20 last:border-r-0 flex flex-col gap-4 hover:bg-green-deep/5 transition-colors duration-300 max-md:border-r-0 max-md:border-b max-md:last:border-b-0"
                     >
                         <h3
                             className="font-serif text-2xl leading-tight"

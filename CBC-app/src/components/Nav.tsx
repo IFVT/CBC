@@ -8,6 +8,7 @@ function Nav() {
 
     const [isScrolled, setIsScrolled] = useState(false)
     const [isLight, setIsLight] = useState(false)
+    const [menuOpen, setMenuOpen] = useState(false)
 
     useEffect(() => {
         const handleScroll = () => {
@@ -37,32 +38,35 @@ function Nav() {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
+    const horizontal = isScrolled ? 'px-6 sm:px-10 lg:px-16 py-3' : 'px-6 sm:px-10 lg:px-16 py-4 lg:py-6'
+
     return(
-        <header 
+        <header
             id="nav"
             className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between transition-all duration-300 ${
-                isScrolled 
+                isScrolled
                     ? isLight
-                        ? 'bg-cream/92 border-b border-green-deep/14 text-green-deep px-16 py-3'
-                        : 'bg-green-deep/85 backdrop-blur-sm border-b border-white/14 px-16 py-3'
+                        ? `bg-cream/92 border-b border-green-deep/14 text-green-deep ${horizontal}`
+                        : `bg-green-deep/85 backdrop-blur-sm border-b border-white/14 ${horizontal}`
                     : isLight
-                        ? 'bg-transparent text-green-deep px-16 py-6'
-                        : 'bg-transparent text-cream px-16 py-6'
+                        ? `bg-transparent text-green-deep ${horizontal}`
+                        : `bg-transparent text-cream ${horizontal}`
             }`}
         >
-            
-            <a href="#top">
-                <img 
+
+            <a href="#top" onClick={() => setMenuOpen(false)}>
+                <img
                     src={isLight ? "/logos/core-dark.png" : "/logos/core-light.png"}
                     alt="CORE Build Consulting"
-                    className="h-16 w-auto transition-all duration-300"
+                    className="h-11 sm:h-14 lg:h-16 w-auto transition-all duration-300"
                 />
             </a>
 
-            <nav className="flex gap-9">
+            {/* Enlaces centrales — solo en desktop */}
+            <nav className="hidden lg:flex gap-9">
                 {NAV_LINKS.map((link)=>(
-                    <a 
-                        href={link.href} 
+                    <a
+                        href={link.href}
                         key={link.href}
                         className="relative font-mono text-xs tracking-widest uppercase opacity-80 hover:opacity-100 transition-opacity py-1 group"
                     >
@@ -72,7 +76,7 @@ function Nav() {
                 ))}
             </nav>
 
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-4 md:gap-6">
 
                 {/* Selector de idioma */}
                 <div className="flex items-center gap-1.5 font-mono text-xs tracking-widest uppercase">
@@ -97,7 +101,7 @@ function Nav() {
 
                 <a
                     href="#contact"
-                    className="font-mono text-xs tracking-widest uppercase border border-current px-5 py-3 hover:bg-current hover:text-cream transition-colors flex items-center gap-2"
+                    className="hidden sm:flex font-mono text-xs tracking-widest uppercase border border-current px-5 py-3 hover:bg-current hover:text-cream transition-colors items-center gap-2"
                 >
                     {NAV_CTA}
                     <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
@@ -105,7 +109,45 @@ function Nav() {
                     </svg>
                 </a>
 
+                {/* Botón hamburguesa — solo en móvil/tablet */}
+                <button
+                    type="button"
+                    onClick={() => setMenuOpen(v => !v)}
+                    aria-label="Menu"
+                    aria-expanded={menuOpen}
+                    className="lg:hidden flex flex-col justify-center gap-1.5 w-8 h-8 items-center"
+                >
+                    <span className={`block h-0.5 w-6 bg-current transition-all duration-300 ${menuOpen ? "translate-y-2 rotate-45" : ""}`} />
+                    <span className={`block h-0.5 w-6 bg-current transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
+                    <span className={`block h-0.5 w-6 bg-current transition-all duration-300 ${menuOpen ? "-translate-y-2 -rotate-45" : ""}`} />
+                </button>
             </div>
+
+            {/* Menú desplegable móvil */}
+            {menuOpen && (
+                <nav className="lg:hidden absolute top-full left-0 right-0 bg-green-deep/97 backdrop-blur-sm border-t border-white/10 text-cream flex flex-col px-6 py-4">
+                    {NAV_LINKS.map((link) => (
+                        <a
+                            href={link.href}
+                            key={link.href}
+                            onClick={() => setMenuOpen(false)}
+                            className="font-mono text-xs tracking-widest uppercase opacity-80 hover:opacity-100 transition-opacity py-4 border-b border-white/10"
+                        >
+                            {link.label}
+                        </a>
+                    ))}
+                    <a
+                        href="#contact"
+                        onClick={() => setMenuOpen(false)}
+                        className="font-mono text-xs tracking-widest uppercase py-4 flex items-center gap-2"
+                    >
+                        {NAV_CTA}
+                        <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
+                            <path d="M1 5h12m0 0L9 1m4 4L9 9" stroke="currentColor" strokeWidth="1.2" strokeLinecap="square"/>
+                        </svg>
+                    </a>
+                </nav>
+            )}
 
         </header>
     )

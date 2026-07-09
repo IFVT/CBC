@@ -54,30 +54,30 @@ function Methodology()  {
     }, [activeStep, isPaused])
 
     return (
-        <section 
+        <section
             id="methodology"
-            className="bg-cream text-green-deep py-24 px-16"
+            className="bg-cream text-green-deep py-16 md:py-24 px-6 sm:px-10 lg:px-16"
         >
             {/* Header */}
-            <div ref={refHeader} className="reveal max-w-7xl mx-auto grid grid-cols-2 gap-16 mb-20">
-                <div className="flex flex-col gap-4">
+            <div ref={refHeader} className="reveal max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16 mb-12 md:mb-20">
+                <div className="flex flex-col gap-4 md:order-1 order-2">
                     <p className="font-mono text-xs tracking-widest uppercase opacity-60">{METHODOLOGY_HEADER.eyebrow}</p>
                     <p className="text-sm leading-relaxed opacity-70 max-w-sm">{METHODOLOGY_HEADER.lede}</p>
                 </div>
-                <div className="flex items-end">
-                    <h2 className="font-serif text-8xl leading-tight">
+                <div className="flex items-end md:order-2 order-1">
+                    <h2 className="font-serif text-4xl sm:text-6xl lg:text-8xl leading-tight">
                         {METHODOLOGY_HEADER.title} <em className="italic">{METHODOLOGY_HEADER.titleItalic}</em> {METHODOLOGY_HEADER.titleEnd}
                     </h2>
                 </div>
             </div>
 
             {/* Rail horizontal */}
-            <div ref={refRail} className="reveal max-w-7xl mx-auto grid grid-cols-4 border-t border-green-deep/20">
+            <div ref={refRail} className="reveal max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 border-t border-green-deep/20">
                 {METHODOLOGY_STEP.map((step) => (
                     <div
                         key={step.number}
                         onClick={() => handleStepClick(step.number - 1)}
-                        className={`relative overflow-hidden py-5 px-6 cursor-pointer border-r border-green-deep/20 last:border-r-0 transition-all duration-300 outline-none select-none ${
+                        className={`relative overflow-hidden py-4 md:py-5 px-4 sm:px-6 cursor-pointer border-r border-green-deep/20 last:border-r-0 transition-all duration-300 outline-none select-none ${
                             activeStep === step.number - 1
                                 ? 'bg-green-deep text-cream'
                                 : 'hover:opacity-70'
@@ -98,16 +98,16 @@ function Methodology()  {
             </div>
 
             {/* Panel — sin reveal para no interferir con la transición */}
-            <div className={`max-w-7xl mx-auto grid grid-cols-2 gap-16 pt-16 transition-all duration-200 ${
+            <div className={`max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-16 pt-8 md:pt-16 transition-all duration-200 ${
                 isTransitioning ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'
             }`}>
                 <div className="flex items-center justify-center">
-                    <span className="font-serif text-[20rem] leading-none text-green-deep select-none">
+                    <span className="font-serif text-[7rem] sm:text-[12rem] md:text-[20rem] leading-none text-green-deep select-none">
                         {String(METHODOLOGY_STEP[activeStep].number).padStart(2, '0')}
                     </span>
                 </div>
-                <div className="flex flex-col gap-6 py-12">
-                    <h3 className="font-serif text-5xl leading-tight">
+                <div className="flex flex-col gap-6 md:py-12">
+                    <h3 className="font-serif text-3xl sm:text-4xl lg:text-5xl leading-tight">
                         {METHODOLOGY_STEP[activeStep].title}
                     </h3>
                     <p className="text-sm leading-relaxed opacity-70">

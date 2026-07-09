@@ -8,18 +8,18 @@ function Experience() {
     const refGrid = useScrollReveal({ threshold: 0.05 })
 
     return(
-        <section 
-            id="experience" 
-            className="bg-cream text-green-deep py-24 px-16"
+        <section
+            id="experience"
+            className="bg-cream text-green-deep py-16 md:py-24 px-6 sm:px-10 lg:px-16"
         >
-            <div className="max-w-7xl mx-auto grid grid-cols-2 gap-16 mb-20">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 mb-12 md:mb-20">
 
                 <div ref={refLeft} className="reveal">
                     <p className="font-mono text-xs tracking-widest uppercase opacity-60 flex items-center gap-3">
                         <span className="w-8 h-px bg-current inline-block"></span>
                         {EXPERIENCE.eyebrow}
                     </p>
-                    <h2 className="font-serif text-5xl leading-tight mt-4">
+                    <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl leading-tight mt-4">
                         {EXPERIENCE.title} <em className="italic">{EXPERIENCE.titleItalic}</em>.
                     </h2>
                 </div>
