@@ -126,6 +126,10 @@ type ContactForm = {
   success: string
   sendAnother: string
   error: string
+  required: string
+  invalidEmail: string
+  validationMissing: string
+  messageShort: string
 }
 
 type FooterColumn = {
@@ -399,6 +403,10 @@ const en: SiteContent = {
     success: "Thank you — your message is on its way. We'll be in touch shortly.",
     sendAnother: "Send another message",
     error: "Something went wrong. Please try again or email us directly.",
+    required: "Required",
+    invalidEmail: "Please enter a valid email address.",
+    validationMissing: "Please complete: ",
+    messageShort: "Message",
   },
   FOOTER_COLUMNS: [
     {
@@ -615,6 +623,10 @@ const es: SiteContent = {
     success: "Gracias — tu mensaje va en camino. Te contactaremos muy pronto.",
     sendAnother: "Enviar otro mensaje",
     error: "Algo salió mal. Inténtalo de nuevo o escríbenos directamente.",
+    required: "Obligatorio",
+    invalidEmail: "Ingresa un correo electrónico válido.",
+    validationMissing: "Faltan por completar: ",
+    messageShort: "Mensaje",
   },
   FOOTER_COLUMNS: [
     {

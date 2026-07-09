@@ -3,6 +3,9 @@ import { useContent, useLang } from "../i18n/LanguageContext"
 import { useScrollReveal } from "../hooks/useScrollReveal"
 
 type Status = "idle" | "submitting" | "success" | "error"
+type FieldKey = "name" | "company" | "email" | "message" | "capabilities"
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 function Contact() {
 
@@ -16,9 +19,21 @@ function Contact() {
     const [website, setWebsite] = useState("") // honeypot
     const [selectedChips, setSelectedChips] = useState<string[]>([])
     const [status, setStatus] = useState<Status>("idle")
+    const [fieldErrors, setFieldErrors] = useState<Partial<Record<FieldKey, string>>>({})
+    const [formError, setFormError] = useState("")
 
     const refLeft = useScrollReveal()
     const refRight = useScrollReveal<HTMLFormElement>({ threshold: 0.1 })
+
+    const clearError = (key: FieldKey) => {
+        setFieldErrors(prev => {
+            if (!prev[key]) return prev
+            const next = { ...prev }
+            delete next[key]
+            return next
+        })
+        setFormError("")
+    }
 
     const toggleChip = (value: string) => {
         setSelectedChips(prev =>
@@ -26,11 +41,43 @@ function Contact() {
                 ? prev.filter(c => c !== value)
                 : [...prev, value]
         )
+        clearError("capabilities")
     }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (status === "submitting") return
+
+        // Validación en el cliente
+        const errs: Partial<Record<FieldKey, string>> = {}
+        if (!name.trim()) errs.name = CONTACT_FORM.required
+        if (!company.trim()) errs.company = CONTACT_FORM.required
+        if (!email.trim()) errs.email = CONTACT_FORM.required
+        else if (!EMAIL_RE.test(email.trim())) errs.email = CONTACT_FORM.invalidEmail
+        if (!message.trim()) errs.message = CONTACT_FORM.required
+        if (selectedChips.length === 0) errs.capabilities = CONTACT_FORM.required
+
+        if (Object.keys(errs).length > 0) {
+            setFieldErrors(errs)
+            const labels: Record<FieldKey, string> = {
+                name: CONTACT_FORM.labelName,
+                company: CONTACT_FORM.labelCompany,
+                email: CONTACT_FORM.labelEmail,
+                message: CONTACT_FORM.messageShort,
+                capabilities: CONTACT_FORM.labelCapabilities,
+            }
+            const order: FieldKey[] = ["name", "company", "email", "message", "capabilities"]
+            const missing = order.filter(k => errs[k] === CONTACT_FORM.required).map(k => labels[k])
+            const parts: string[] = []
+            if (missing.length) parts.push(`${CONTACT_FORM.validationMissing}${missing.join(", ")}`)
+            if (errs.email === CONTACT_FORM.invalidEmail) parts.push(CONTACT_FORM.invalidEmail)
+            setFormError(parts.join("  ·  "))
+            setStatus("idle")
+            return
+        }
+
+        setFieldErrors({})
+        setFormError("")
         setStatus("submitting")
 
         const capabilities = CONTACT_CHIPS
@@ -63,6 +110,11 @@ function Contact() {
         : CONTACT_FORM.note
 
     const statusClass = status === "error" ? "text-[#e88] opacity-90" : "opacity-40"
+
+    const fieldClass = (key: FieldKey) =>
+        `bg-transparent border-b py-2 text-sm outline-none transition-colors ${
+            fieldErrors[key] ? "border-[#e88] focus:border-[#e88]" : "border-green-soft focus:border-cream"
+        }`
 
     return(
         <section
@@ -103,7 +155,7 @@ function Contact() {
                 </div>
 
                 {/* Columna derecha — Formulario */}
-                <form ref={refRight} onSubmit={handleSubmit} className="reveal grid grid-cols-2 gap-6 content-start">
+                <form ref={refRight} onSubmit={handleSubmit} noValidate className="reveal grid grid-cols-2 gap-6 content-start">
 
                     {status === "success" ? (
                     /* Panel de confirmación */
@@ -149,11 +201,12 @@ function Contact() {
                             id="contact-name"
                             name="name"
                             type="text"
-                            required
+                            aria-invalid={!!fieldErrors.name}
                             value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            className="bg-transparent border-b border-green-soft py-2 text-sm outline-none focus:border-cream transition-colors"
+                            onChange={(e) => { setName(e.target.value); clearError("name") }}
+                            className={fieldClass("name")}
                         />
+                        {fieldErrors.name && <p className="text-[#e88] text-xs">{fieldErrors.name}</p>}
                     </div>
 
                     {/* Empresa */}
@@ -165,10 +218,12 @@ function Contact() {
                             id="contact-company"
                             name="company"
                             type="text"
+                            aria-invalid={!!fieldErrors.company}
                             value={company}
-                            onChange={(e) => setCompany(e.target.value)}
-                            className="bg-transparent border-b border-green-soft py-2 text-sm outline-none focus:border-cream transition-colors"
+                            onChange={(e) => { setCompany(e.target.value); clearError("company") }}
+                            className={fieldClass("company")}
                         />
+                        {fieldErrors.company && <p className="text-[#e88] text-xs">{fieldErrors.company}</p>}
                     </div>
 
                     {/* Email */}
@@ -180,11 +235,12 @@ function Contact() {
                             id="contact-email"
                             name="email"
                             type="email"
-                            required
+                            aria-invalid={!!fieldErrors.email}
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="bg-transparent border-b border-green-soft py-2 text-sm outline-none focus:border-cream transition-colors"
+                            onChange={(e) => { setEmail(e.target.value); clearError("email") }}
+                            className={fieldClass("email")}
                         />
+                        {fieldErrors.email && <p className="text-[#e88] text-xs">{fieldErrors.email}</p>}
                     </div>
 
                     {/* Chips */}
@@ -201,7 +257,9 @@ function Contact() {
                                     className={`font-mono text-xs tracking-widest uppercase px-3 py-2 border transition-all duration-200 ${
                                         selectedChips.includes(chip.value)
                                             ? 'bg-cream text-green-deep border-cream'
-                                            : 'border-green-soft hover:border-cream'
+                                            : fieldErrors.capabilities
+                                                ? 'border-[#e88] hover:border-cream'
+                                                : 'border-green-soft hover:border-cream'
                                     }`}
                                 >
                                     {selectedChips.includes(chip.value) && <span className="mr-1">✓</span>}
@@ -209,6 +267,7 @@ function Contact() {
                                 </button>
                             ))}
                         </div>
+                        {fieldErrors.capabilities && <p className="text-[#e88] text-xs">{fieldErrors.capabilities}</p>}
                     </div>
 
                     {/* Mensaje */}
@@ -219,18 +278,27 @@ function Contact() {
                         <textarea
                             id="contact-message"
                             name="message"
-                            required
                             rows={4}
+                            aria-invalid={!!fieldErrors.message}
                             value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            className="bg-transparent border-b border-green-soft py-2 text-sm outline-none focus:border-cream transition-colors resize-none"
+                            onChange={(e) => { setMessage(e.target.value); clearError("message") }}
+                            className={`${fieldClass("message")} resize-none`}
                         />
+                        {fieldErrors.message && <p className="text-[#e88] text-xs">{fieldErrors.message}</p>}
                     </div>
+
+                    {/* Notificación de validación */}
+                    {formError && (
+                        <div className="col-span-2 border border-[#e88]/40 bg-[#e88]/10 px-4 py-3">
+                            <p role="alert" className="text-[#e88] text-xs leading-relaxed">
+                                {formError}
+                            </p>
+                        </div>
+                    )}
 
                     {/* Submit */}
                     <div className="col-span-2 flex items-center justify-between border-t border-green-soft pt-6 gap-6">
                         <p
-                            role={status === "error" ? "alert" : undefined}
                             aria-live="polite"
                             className={`font-mono text-xs tracking-widest uppercase max-w-xs ${statusClass}`}
                         >
