@@ -59,14 +59,10 @@ function Contact() {
 
     const statusMessage =
         status === "submitting" ? CONTACT_FORM.sending
-        : status === "success" ? CONTACT_FORM.success
         : status === "error" ? CONTACT_FORM.error
         : CONTACT_FORM.note
 
-    const statusClass =
-        status === "success" ? "text-cream opacity-90"
-        : status === "error" ? "text-[#e88] opacity-90"
-        : "opacity-40"
+    const statusClass = status === "error" ? "text-[#e88] opacity-90" : "opacity-40"
 
     return(
         <section
@@ -108,6 +104,29 @@ function Contact() {
 
                 {/* Columna derecha — Formulario */}
                 <form ref={refRight} onSubmit={handleSubmit} className="reveal grid grid-cols-2 gap-6 content-start">
+
+                    {status === "success" ? (
+                    /* Panel de confirmación */
+                    <div className="col-span-2 min-h-[420px] flex flex-col items-center justify-center text-center gap-6 py-12">
+                        <div className="w-16 h-16 rounded-full border border-cream/40 flex items-center justify-center">
+                            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                        </div>
+                        <div className="flex flex-col gap-3">
+                            <h3 className="font-serif text-4xl leading-tight">{CONTACT_FORM.successTitle}</h3>
+                            <p className="text-sm leading-relaxed opacity-70 max-w-sm mx-auto">{CONTACT_FORM.success}</p>
+                        </div>
+                        <button
+                            type="button"
+                            onClick={() => setStatus("idle")}
+                            className="font-mono text-xs tracking-widest uppercase underline underline-offset-4 opacity-70 hover:opacity-100 transition-opacity"
+                        >
+                            {CONTACT_FORM.sendAnother}
+                        </button>
+                    </div>
+                    ) : (
+                    <>
 
                     {/* Honeypot anti-spam — oculto para usuarios reales */}
                     <input
@@ -228,6 +247,9 @@ function Contact() {
                             </svg>
                         </button>
                     </div>
+
+                    </>
+                    )}
 
                 </form>
             </div>

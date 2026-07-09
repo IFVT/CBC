@@ -122,7 +122,9 @@ type ContactForm = {
   buttonText: string
   note: string
   sending: string
+  successTitle: string
   success: string
+  sendAnother: string
   error: string
 }
 
@@ -393,7 +395,9 @@ const en: SiteContent = {
     buttonText: "Send enquiry",
     note: "We reply personally — no automated funnels.",
     sending: "Sending…",
+    successTitle: "Message sent",
     success: "Thank you — your message is on its way. We'll be in touch shortly.",
+    sendAnother: "Send another message",
     error: "Something went wrong. Please try again or email us directly.",
   },
   FOOTER_COLUMNS: [
@@ -607,7 +611,9 @@ const es: SiteContent = {
     buttonText: "Enviar consulta",
     note: "Respondemos personalmente, sin embudos automatizados.",
     sending: "Enviando…",
+    successTitle: "Mensaje enviado",
     success: "Gracias — tu mensaje va en camino. Te contactaremos muy pronto.",
+    sendAnother: "Enviar otro mensaje",
     error: "Algo salió mal. Inténtalo de nuevo o escríbenos directamente.",
   },
   FOOTER_COLUMNS: [
