@@ -3,7 +3,7 @@ import { useScrollReveal } from "../hooks/useScrollReveal"
 import realStateImg from "../assets/realstate-building.jpeg"
 
 function RealEstate() {
-    const { REALSTATE_TOPICS, REALESTATE_HEADER } = useContent()
+    const { REALESTATE_TOPICS, REALESTATE_HEADER } = useContent()
     const refContent = useScrollReveal({ threshold: 0.1 })
 
     return(
@@ -28,7 +28,7 @@ function RealEstate() {
 
                 {/* Topics */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 border-t border-b border-white/20 py-6 max-w-lg">
-                    {REALSTATE_TOPICS.map((topic) => (
+                    {REALESTATE_TOPICS.map((topic) => (
                         <div key={topic.title} className="flex flex-col gap-2">
                             <p className="font-mono text-xs tracking-widest uppercase text-[#d8a01ef3]">
                                 {topic.title}

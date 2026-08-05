@@ -112,7 +112,7 @@ function Contact() {
     const statusClass = status === "error" ? "text-[#e88] opacity-90" : "opacity-40"
 
     const fieldClass = (key: FieldKey) =>
-        `bg-transparent border-b py-2 text-sm outline-none transition-colors ${
+        `bg-transparent border-b py-2 text-sm transition-colors ${
             fieldErrors[key] ? "border-[#e88] focus:border-[#e88]" : "border-green-soft focus:border-cream"
         }`
 
@@ -254,7 +254,7 @@ function Contact() {
                                     type="button"
                                     key={chip.value}
                                     onClick={() => toggleChip(chip.value)}
-                                    className={`font-mono text-xs tracking-widest uppercase px-3 py-2 border transition-all duration-200 ${
+                                    className={`font-mono text-xs tracking-widest uppercase px-3 py-2 border transition duration-200 ${
                                         selectedChips.includes(chip.value)
                                             ? 'bg-cream text-green-deep border-cream'
                                             : fieldErrors.capabilities

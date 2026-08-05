@@ -22,13 +22,17 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-*:focus {
-  outline: none;
+/* Foco visible solo en navegacion por teclado (WCAG 2.4.7).
+   currentColor hereda el color del texto, asi contrasta tanto
+   sobre el verde oscuro como sobre los bloques crema. */
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
 }
 
-*:not(input):not(textarea):not([contenteditable]) {
-  user-select: none;
-  -webkit-user-select: none;
+/* Al hacer click con el raton no se dibuja el anillo */
+:focus:not(:focus-visible) {
+  outline: none;
 }
 
 @keyframes fadeUp {
@@ -42,11 +46,13 @@ body {
   }
 }
 
-.reveal {
+/* El estado oculto solo se aplica si el JS esta vivo (clase .js en <html>).
+   Sin JS, o si el observer falla, el contenido se ve igual. */
+.js .reveal {
   opacity: 0;
 }
 
-.reveal.is-visible {
+.js .reveal.is-visible {
   animation: fadeUp 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
 }
 
@@ -79,7 +85,20 @@ body {
   animation: whatsappPulse 2.4s ease-out infinite;
 }
 
+/* Respeta a quien pidio menos movimiento: se ve todo, sin animar nada. */
 @media (prefers-reduced-motion: reduce) {
+  .js .reveal {
+    opacity: 1;
+  }
+
+  .js .reveal.is-visible {
+    animation: none;
+  }
+
+  .animate-marquee {
+    animation: none;
+  }
+
   .whatsapp-pulse {
     animation: none;
   }

@@ -74,10 +74,12 @@ function Methodology()  {
             {/* Rail horizontal */}
             <div ref={refRail} className="reveal max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 border-t border-green-deep/20">
                 {METHODOLOGY_STEP.map((step) => (
-                    <div
+                    <button
+                        type="button"
                         key={step.number}
                         onClick={() => handleStepClick(step.number - 1)}
-                        className={`relative overflow-hidden py-4 md:py-5 px-4 sm:px-6 cursor-pointer border-r border-green-deep/20 last:border-r-0 transition-all duration-300 outline-none select-none ${
+                        aria-current={activeStep === step.number - 1 ? "step" : undefined}
+                        className={`relative overflow-hidden text-left w-full py-4 md:py-5 px-4 sm:px-6 cursor-pointer border-r border-green-deep/20 last:border-r-0 transition duration-300 select-none ${
                             activeStep === step.number - 1
                                 ? 'bg-green-deep text-cream'
                                 : 'hover:opacity-70'
@@ -93,7 +95,7 @@ function Methodology()  {
                                 style={{ width: `${progress}%` }}
                             />
                         )}
-                    </div>
+                    </button>
                 ))}
             </div>
 

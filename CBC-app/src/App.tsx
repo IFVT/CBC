@@ -1,11 +1,11 @@
 import Capabilities from "./components/Capabilities"
 import Contact from "./components/Contact"
-import Experience from "./components/Expirience"
+import Experience from "./components/Experience"
 import Footer from "./components/Footer"
 import Hero from "./components/Hero"
 import Methodology from "./components/Methodology"
 import Nav from "./components/Nav"
-import RealState from "./components/RealState"
+import RealEstate from "./components/RealEstate"
 import Team from "./components/Team"
 import Values from "./components/Values"
 import VisionMission from "./components/VisionMission"
@@ -19,7 +19,7 @@ function App() {
       <Capabilities/>
       <Experience/>
       <Methodology/>
-      <RealState/>
+      <RealEstate/>
       <Values/>
       <VisionMission/>
       <Team/>

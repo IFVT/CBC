@@ -161,7 +161,7 @@ export type SiteContent = {
   METHODOLOGY_STEP: MethodologyStep[]
   METHODOLOGY_OUTCOME_LABEL: string
   REALESTATE_HEADER: RealEstateHeader
-  REALSTATE_TOPICS: RealEstateTopic[]
+  REALESTATE_TOPICS: RealEstateTopic[]
   VALUES_HEADER: ValuesHeader
   VALUES: Value[]
   VISION: VisionMisssion
@@ -345,7 +345,7 @@ const en: SiteContent = {
     lede: "Our integrated advisory system aligns strategy, execution, technology and market positioning — turning real estate concepts into structured, financeable, deliverable projects.",
     buttonText: "Discuss a real estate engagement",
   },
-  REALSTATE_TOPICS: [
+  REALESTATE_TOPICS: [
     { title: "Strategy & Structuring", lede: "Investment thesis, asset positioning, capital and ownership structure." },
     { title: "Development Management", lede: "Planning, design coordination, programme and budget governance." },
     { title: "Commercialisation", lede: "Go-to-market, brokerage activation, pricing and absorption strategy." },
@@ -565,7 +565,7 @@ const es: SiteContent = {
     lede: "Nuestro sistema integrado de asesoría alinea estrategia, ejecución, tecnología y posicionamiento de mercado, convirtiendo conceptos inmobiliarios en proyectos estructurados, financiables y ejecutables.",
     buttonText: "Conversemos sobre un proyecto inmobiliario",
   },
-  REALSTATE_TOPICS: [
+  REALESTATE_TOPICS: [
     { title: "Estrategia y Estructuración", lede: "Tesis de inversión, posicionamiento del activo, estructura de capital y propiedad." },
     { title: "Gestión del Desarrollo", lede: "Planeación, coordinación de diseño, gobernanza de programa y presupuesto." },
     { title: "Comercialización", lede: "Salida al mercado, activación de corretaje, estrategia de precios y absorción." },

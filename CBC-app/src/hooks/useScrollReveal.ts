@@ -10,6 +10,17 @@ export function useScrollReveal<T extends HTMLElement = HTMLDivElement>(options?
         const el = ref.current
         if (!el) return
 
+        // Si el navegador no soporta IntersectionObserver, o el usuario pidio
+        // menos movimiento, mostramos el contenido de inmediato.
+        const prefersReducedMotion =
+            typeof window.matchMedia === "function" &&
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+        if (prefersReducedMotion || typeof IntersectionObserver === "undefined") {
+            el.classList.add("is-visible")
+            return
+        }
+
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
