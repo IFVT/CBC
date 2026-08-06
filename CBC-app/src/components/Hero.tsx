@@ -1,5 +1,6 @@
 import { useContent } from "../i18n/LanguageContext"
 import { useScrollReveal } from "../hooks/useScrollReveal"
+import heroBuildingWebp from "../assets/hero-building.webp"
 import heroBuilding from "../assets/hero-building.jpeg"
 
 function Hero() {
@@ -10,10 +11,20 @@ function Hero() {
     return(
         <section
             id="top"
-            className="relative min-h-screen pt-28 sm:pt-32 px-6 sm:px-10 lg:px-16 pb-12 sm:pb-16 flex flex-col bg-cover bg-center"
-            style={{ backgroundImage: `url(${heroBuilding})` }}
+            className="relative min-h-screen pt-28 sm:pt-32 px-6 sm:px-10 lg:px-16 pb-12 sm:pb-16 flex flex-col overflow-hidden"
         >
-            <div className="absolute inset-0 bg-gradient-to-r from-green-deep via-green-deep/80 to-green-deep/20" />
+            <picture>
+                <source srcSet={heroBuildingWebp} type="image/webp" />
+                <img
+                    src={heroBuilding}
+                    alt=""
+                    aria-hidden="true"
+                    fetchPriority="high"
+                    decoding="async"
+                    className="absolute inset-0 -z-10 h-full w-full object-cover object-center"
+                />
+            </picture>
+            <div className="absolute inset-0 -z-10 bg-gradient-to-r from-green-deep via-green-deep/80 to-green-deep/20" />
 
             <div className="relative max-w-7xl mx-auto flex-1 flex items-center w-full">
 

@@ -1,6 +1,6 @@
 import { useContent } from "../i18n/LanguageContext"
 import { useScrollReveal } from "../hooks/useScrollReveal"
-import realStateImg from "../assets/realstate-building.jpeg"
+import realStateImg from "../assets/realstate-building.webp"
 
 function RealEstate() {
     const { REALESTATE_TOPICS, REALESTATE_HEADER } = useContent()
