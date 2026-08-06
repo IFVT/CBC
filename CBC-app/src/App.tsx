@@ -10,6 +10,7 @@ import Team from "./components/Team"
 import Values from "./components/Values"
 import VisionMission from "./components/VisionMission"
 import WhatsappButton from "./components/WhatsappButton"
+import { SpeedInsights } from "@vercel/speed-insights/react"
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
       <Contact/>
       <Footer/>
       <WhatsappButton/>
+      <SpeedInsights/>
     </main>
   )
 }
