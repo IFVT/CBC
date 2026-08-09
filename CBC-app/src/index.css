@@ -66,10 +66,6 @@ body {
   from { opacity: 0; transform: translateY(0.6em); }
   to   { opacity: 1; transform: translateY(0); }
 }
-@keyframes heroZoom {
-  from { transform: scale(1.08); }
-  to   { transform: scale(1); }
-}
 
 /* Mask reveal: cada palabra emerge desde detrás de un borde oculto.
    El padding-bottom deja aire para colas de letras (g, y, coma). */
@@ -88,7 +84,56 @@ body {
   animation: heroWordRise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .js .hero-fade { opacity: 0; animation: heroFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
-.js .hero-img-anim { animation: heroZoom 1.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* Fondo aurora: blooms de color a la deriva sobre el verde profundo.
+   mix-blend screen hace que iluminen el fondo oscuro (glow). */
+.hero-aurora {
+  overflow: hidden;
+}
+.hero-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+.hero-blob-1 {
+  width: 60vw;
+  height: 60vw;
+  top: -18%;
+  left: -12%;
+  background: radial-gradient(circle at center, #2a3a2a 0%, rgba(42, 58, 42, 0) 70%);
+  animation: auroraDrift1 26s ease-in-out infinite alternate;
+}
+.hero-blob-2 {
+  width: 52vw;
+  height: 52vw;
+  top: 12%;
+  right: -16%;
+  background: radial-gradient(circle at center, #3a4a3a 0%, rgba(58, 74, 58, 0) 70%);
+  animation: auroraDrift2 32s ease-in-out infinite alternate;
+}
+.hero-blob-3 {
+  width: 34vw;
+  height: 34vw;
+  bottom: -12%;
+  left: 28%;
+  opacity: 0.5;
+  background: radial-gradient(circle at center, rgba(216, 160, 30, 0.55) 0%, rgba(216, 160, 30, 0) 70%);
+  animation: auroraDrift3 24s ease-in-out infinite alternate;
+}
+@keyframes auroraDrift1 {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(8%, 6%, 0) scale(1.15); }
+}
+@keyframes auroraDrift2 {
+  from { transform: translate3d(0, 0, 0) scale(1.1); }
+  to   { transform: translate3d(-7%, -5%, 0) scale(1); }
+}
+@keyframes auroraDrift3 {
+  from { transform: translate3d(0, 0, 0) scale(0.9); }
+  to   { transform: translate3d(6%, -8%, 0) scale(1.2); }
+}
 
 /* Grano film sutil sobre el fondo (textura editorial, estático) */
 .hero-grain {
@@ -165,7 +210,7 @@ html.lenis body {
     animation: none;
   }
 
-  .js .hero-img-anim {
+  .hero-blob {
     animation: none;
   }
 
