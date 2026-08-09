@@ -38,13 +38,13 @@ function Hero() {
                     <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-tight text-cream">
                         {titleWords.map((word, i) => (
                             <Fragment key={`t${i}`}>
-                                <span className="hero-word inline-block" style={{ animationDelay: wordDelay(i) }}>{word}</span>{" "}
+                                <span className="hero-mask"><span className="hero-word-inner" style={{ animationDelay: wordDelay(i) }}>{word}</span></span>{" "}
                             </Fragment>
                         ))}
                         <em className="text-[#d8a01ef3]">
                             {yellowWords.map((word, i) => (
                                 <Fragment key={`y${i}`}>
-                                    <span className="hero-word inline-block" style={{ animationDelay: wordDelay(titleWords.length + i) }}>{word}</span>{" "}
+                                    <span className="hero-mask"><span className="hero-word-inner" style={{ animationDelay: wordDelay(titleWords.length + i) }}>{word}</span></span>{" "}
                                 </Fragment>
                             ))}
                         </em>

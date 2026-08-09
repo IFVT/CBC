@@ -58,9 +58,9 @@ body {
 
 /* Entrada del Hero — solo transform/opacity. Estado base (sin .js) = visible,
    así que sin JS o si algo falla, el contenido se ve igual. */
-@keyframes heroWord {
-  from { opacity: 0; transform: translateY(0.5em); }
-  to   { opacity: 1; transform: translateY(0); }
+@keyframes heroWordRise {
+  from { transform: translateY(120%); }
+  to   { transform: translateY(0); }
 }
 @keyframes heroFade {
   from { opacity: 0; transform: translateY(0.6em); }
@@ -71,9 +71,24 @@ body {
   to   { transform: scale(1); }
 }
 
-.js .hero-word { opacity: 0; animation: heroWord 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
-.js .hero-fade { opacity: 0; animation: heroFade 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
-.js .hero-img-anim { animation: heroZoom 1.5s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+/* Mask reveal: cada palabra emerge desde detrás de un borde oculto.
+   El padding-bottom deja aire para colas de letras (g, y, coma). */
+.hero-mask {
+  display: inline-block;
+  overflow: hidden;
+  padding-bottom: 0.15em;
+  margin-bottom: -0.15em;
+  vertical-align: bottom;
+}
+.hero-word-inner {
+  display: inline-block;
+}
+.js .hero-word-inner {
+  transform: translateY(120%);
+  animation: heroWordRise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.js .hero-fade { opacity: 0; animation: heroFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.js .hero-img-anim { animation: heroZoom 1.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
 @keyframes marquee {
   from {
@@ -114,9 +129,13 @@ body {
     animation: none;
   }
 
-  .js .hero-word,
   .js .hero-fade {
     opacity: 1;
+    animation: none;
+  }
+
+  .js .hero-word-inner {
+    transform: none;
     animation: none;
   }
 
