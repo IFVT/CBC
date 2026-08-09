@@ -1,6 +1,7 @@
 import { Fragment } from "react"
 import { useContent } from "../i18n/LanguageContext"
 import { useScrollReveal } from "../hooks/useScrollReveal"
+import HeroShader from "./HeroShader"
 
 function Hero() {
     const { HERO } = useContent()
@@ -16,7 +17,7 @@ function Hero() {
             id="top"
             className="relative min-h-screen pt-28 sm:pt-32 px-6 sm:px-10 lg:px-16 pb-12 sm:pb-16 flex flex-col overflow-hidden"
         >
-            {/* Fondo aurora (verde + oro) con parallax de scroll + mouse */}
+            {/* Fondo: base + aurora CSS (fallback) + shader WebGL encima */}
             <div aria-hidden="true" className="absolute inset-0 -z-10 bg-green-deep" />
             <div className="hero-scroll-parallax absolute inset-0 -z-10">
                 <div className="hero-mouse-parallax absolute inset-0">
@@ -27,9 +28,10 @@ function Hero() {
                     </div>
                 </div>
             </div>
+            <HeroShader />
 
             {/* Legibilidad + grade cinematográfico (viñeta + grano) */}
-            <div className="absolute inset-0 -z-10 bg-gradient-to-r from-green-deep/90 via-green-deep/60 to-transparent" />
+            <div className="absolute inset-0 -z-10 bg-gradient-to-r from-green-deep via-green-deep/40 to-transparent" />
             <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10" style={{ background: "radial-gradient(120% 115% at 50% 42%, transparent 55%, rgba(5,8,5,0.5) 100%)" }} />
             <div aria-hidden="true" className="hero-grain pointer-events-none absolute inset-0 -z-10" />
 
