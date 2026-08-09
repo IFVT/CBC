@@ -21,9 +21,9 @@ function Hero() {
             <div className="hero-scroll-parallax absolute inset-0 -z-10">
                 <div className="hero-mouse-parallax absolute inset-0">
                     <div className="hero-aurora absolute inset-0">
-                        <span className="hero-blob hero-blob-1" />
-                        <span className="hero-blob hero-blob-2" />
-                        <span className="hero-blob hero-blob-3" />
+                        <div className="hero-blob-wrap"><span className="hero-blob hero-blob-1" /></div>
+                        <div className="hero-blob-wrap"><span className="hero-blob hero-blob-2" /></div>
+                        <div className="hero-blob-wrap"><span className="hero-blob hero-blob-3" /></div>
                     </div>
                 </div>
             </div>

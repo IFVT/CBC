@@ -38,21 +38,32 @@ export function useGsapExperience() {
       gsap.ticker.add(raf)
       gsap.ticker.lagSmoothing(0)
 
-      // --- Animaciones ligadas al scroll (parallax del fondo) ---
+      // --- Animaciones ligadas al scroll (aurora reacciona al scroll) ---
       const ctx = gsap.context(() => {
+        const st = {
+          trigger: "#top",
+          start: "top top",
+          end: "bottom top",
+          scrub: true as const,
+        }
+
+        // Deriva general de todo el aurora
         const layer = document.querySelector(".hero-scroll-parallax")
         if (layer) {
-          gsap.to(layer, {
-            yPercent: 12,
-            ease: "none",
-            scrollTrigger: {
-              trigger: "#top",
-              start: "top top",
-              end: "bottom top",
-              scrub: true,
-            },
-          })
+          gsap.to(layer, { yPercent: 14, ease: "none", scrollTrigger: st })
         }
+
+        // Cada bloom se mueve independiente al hacer scroll: se separan,
+        // el dorado crece y sube -> el fondo "vive" con el scroll.
+        const wraps = gsap.utils.toArray<HTMLElement>(".hero-blob-wrap")
+        const moves = [
+          { yPercent: -32, xPercent: -14, scale: 1.4 },
+          { yPercent: 42, xPercent: 12, scale: 1.15 },
+          { yPercent: -24, xPercent: 6, scale: 1.8 },
+        ]
+        wraps.forEach((wrap, i) => {
+          gsap.to(wrap, { ...(moves[i] ?? moves[0]), ease: "none", scrollTrigger: st })
+        })
       })
 
       // --- Parallax con el mouse (solo puntero fino) ---

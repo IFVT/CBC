@@ -90,6 +90,11 @@ body {
 .hero-aurora {
   overflow: hidden;
 }
+.hero-blob-wrap {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
 .hero-blob {
   position: absolute;
   border-radius: 9999px;
