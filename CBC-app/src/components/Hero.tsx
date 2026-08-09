@@ -18,18 +18,27 @@ function Hero() {
             id="top"
             className="relative min-h-screen pt-28 sm:pt-32 px-6 sm:px-10 lg:px-16 pb-12 sm:pb-16 flex flex-col overflow-hidden"
         >
-            <picture>
-                <source srcSet={heroBuildingWebp} type="image/webp" />
-                <img
-                    src={heroBuilding}
-                    alt=""
-                    aria-hidden="true"
-                    fetchPriority="high"
-                    decoding="async"
-                    className="hero-img-anim absolute inset-0 -z-10 h-full w-full object-cover object-center"
-                />
-            </picture>
+            {/* Fondo con parallax (scroll + mouse) */}
+            <div className="hero-scroll-parallax absolute inset-0 -z-10">
+                <div className="hero-mouse-parallax absolute inset-0">
+                    <picture>
+                        <source srcSet={heroBuildingWebp} type="image/webp" />
+                        <img
+                            src={heroBuilding}
+                            alt=""
+                            aria-hidden="true"
+                            fetchPriority="high"
+                            decoding="async"
+                            className="hero-img-anim absolute left-0 -top-[20%] h-[140%] w-full object-cover object-center"
+                        />
+                    </picture>
+                </div>
+            </div>
+
+            {/* Legibilidad + grade cinematográfico (viñeta + grano) */}
             <div className="absolute inset-0 -z-10 bg-gradient-to-r from-green-deep via-green-deep/80 to-green-deep/20" />
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10" style={{ background: "radial-gradient(120% 115% at 50% 42%, transparent 55%, rgba(5,8,5,0.5) 100%)" }} />
+            <div aria-hidden="true" className="hero-grain pointer-events-none absolute inset-0 -z-10" />
 
             <div className="relative max-w-7xl mx-auto flex-1 flex items-center w-full">
 

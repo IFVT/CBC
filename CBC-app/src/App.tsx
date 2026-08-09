@@ -11,8 +11,10 @@ import Values from "./components/Values"
 import VisionMission from "./components/VisionMission"
 import WhatsappButton from "./components/WhatsappButton"
 import { SpeedInsights } from "@vercel/speed-insights/react"
+import { useGsapExperience } from "./hooks/useGsapExperience"
 
 function App() {
+  useGsapExperience()
   return (
     <main>
       <Nav/>
