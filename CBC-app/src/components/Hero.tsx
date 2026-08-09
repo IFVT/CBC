@@ -1,3 +1,4 @@
+import { Fragment } from "react"
 import { useContent } from "../i18n/LanguageContext"
 import { useScrollReveal } from "../hooks/useScrollReveal"
 import heroBuildingWebp from "../assets/hero-building.webp"
@@ -5,8 +6,12 @@ import heroBuilding from "../assets/hero-building.jpeg"
 
 function Hero() {
     const { HERO } = useContent()
-    const refCopy = useScrollReveal()
     const refMeta = useScrollReveal({ threshold: 0.1 })
+
+    const titleWords = HERO.title.split(" ")
+    const yellowWords = HERO.titleYellow.split(" ")
+    const wordDelay = (i: number) => `${0.1 + i * 0.04}s`
+    const total = titleWords.length + yellowWords.length
 
     return(
         <section
@@ -21,20 +26,31 @@ function Hero() {
                     aria-hidden="true"
                     fetchPriority="high"
                     decoding="async"
-                    className="absolute inset-0 -z-10 h-full w-full object-cover object-center"
+                    className="hero-img-anim absolute inset-0 -z-10 h-full w-full object-cover object-center"
                 />
             </picture>
             <div className="absolute inset-0 -z-10 bg-gradient-to-r from-green-deep via-green-deep/80 to-green-deep/20" />
 
             <div className="relative max-w-7xl mx-auto flex-1 flex items-center w-full">
 
-                <div ref={refCopy} className="reveal flex flex-col gap-5 sm:gap-6 justify-center max-w-2xl">
-                    <p className="font-mono text-[11px] sm:text-xs tracking-widest uppercase opacity-60 text-cream">{HERO.eyebrow}</p>
+                <div className="flex flex-col gap-5 sm:gap-6 justify-center max-w-2xl">
+                    <p className="hero-fade font-mono text-[11px] sm:text-xs tracking-widest uppercase opacity-60 text-cream">{HERO.eyebrow}</p>
                     <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-tight text-cream">
-                        {HERO.title} <em className="text-[#d8a01ef3]">{HERO.titleYellow}</em>
+                        {titleWords.map((word, i) => (
+                            <Fragment key={`t${i}`}>
+                                <span className="hero-word inline-block" style={{ animationDelay: wordDelay(i) }}>{word}</span>{" "}
+                            </Fragment>
+                        ))}
+                        <em className="text-[#d8a01ef3]">
+                            {yellowWords.map((word, i) => (
+                                <Fragment key={`y${i}`}>
+                                    <span className="hero-word inline-block" style={{ animationDelay: wordDelay(titleWords.length + i) }}>{word}</span>{" "}
+                                </Fragment>
+                            ))}
+                        </em>
                     </h1>
-                    <p className="text-sm sm:text-base leading-relaxed opacity-70 text-cream max-w-lg">{HERO.lede}</p>
-                    <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-2">
+                    <p className="hero-fade text-sm sm:text-base leading-relaxed opacity-70 text-cream max-w-lg" style={{ animationDelay: `${0.1 + total * 0.04 + 0.05}s` }}>{HERO.lede}</p>
+                    <div className="hero-fade flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-2" style={{ animationDelay: `${0.1 + total * 0.04 + 0.17}s` }}>
                         <a href={HERO.cta1.href} className="text-center bg-cream text-green-deep px-6 py-3 font-mono text-xs tracking-widest uppercase hover:opacity-90 transition-opacity">
                             {HERO.cta1.label}
                         </a>
