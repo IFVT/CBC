@@ -9,11 +9,16 @@ function Nav() {
     const [isScrolled, setIsScrolled] = useState(false)
     const [isLight, setIsLight] = useState(false)
     const [menuOpen, setMenuOpen] = useState(false)
+    const [activeId, setActiveId] = useState("top")
+    const [progress, setProgress] = useState(0)
 
     useEffect(() => {
         const handleScroll = () => {
             const navHeight = document.getElementById('nav')?.offsetHeight ?? 40
             setIsScrolled(window.scrollY > navHeight)
+
+            const docH = document.documentElement.scrollHeight - window.innerHeight
+            setProgress(docH > 0 ? Math.min(window.scrollY / docH, 1) : 0)
 
             const lightSections = ['experience', 'methodology', 'values']
             const scrollY = window.scrollY + navHeight
@@ -36,6 +41,25 @@ function Nav() {
         handleScroll()
         window.addEventListener('scroll', handleScroll, { passive: true })
         return () => window.removeEventListener('scroll', handleScroll)
+    }, [])
+
+    // Sección activa: resalta el enlace del nav de la sección en el centro.
+    useEffect(() => {
+        const ids = ["capabilities", "methodology", "real-estate", "about", "top"]
+        const sections = ids
+            .map((id) => document.getElementById(id))
+            .filter((el): el is HTMLElement => !!el)
+        if (!sections.length) return
+        const obs = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((e) => {
+                    if (e.isIntersecting) setActiveId(e.target.id)
+                })
+            },
+            { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
+        )
+        sections.forEach((s) => obs.observe(s))
+        return () => obs.disconnect()
     }, [])
 
     const horizontal = isScrolled ? 'px-6 sm:px-10 lg:px-16 py-3' : 'px-6 sm:px-10 lg:px-16 py-4 lg:py-6'
@@ -64,16 +88,20 @@ function Nav() {
 
             {/* Enlaces centrales — solo en desktop */}
             <nav className="hidden lg:flex gap-9">
-                {NAV_LINKS.map((link)=>(
+                {NAV_LINKS.map((link)=>{
+                    const active = link.href === `#${activeId}`
+                    return (
                     <a
                         href={link.href}
                         key={link.href}
-                        className="relative font-mono text-xs tracking-widest uppercase opacity-80 hover:opacity-100 transition-opacity py-1 group"
+                        aria-current={active ? "true" : undefined}
+                        className={`relative font-mono text-xs tracking-widest uppercase transition-opacity py-1 group ${active ? "opacity-100" : "opacity-80 hover:opacity-100"}`}
                     >
                         {link.label}
-                        <span className="absolute bottom-0 left-0 w-0 h-px bg-current transition-all duration-300 group-hover:w-full" />
+                        <span className={`absolute bottom-0 left-0 h-px bg-current transition-all duration-300 ${active ? "w-full" : "w-0 group-hover:w-full"}`} />
                     </a>
-                ))}
+                    )
+                })}
             </nav>
 
             <div className="flex items-center gap-4 md:gap-6">
@@ -149,6 +177,13 @@ function Nav() {
                     </a>
                 </nav>
             )}
+
+            {/* Barra de progreso de scroll (acento oro) */}
+            <span
+                aria-hidden="true"
+                className="absolute bottom-0 left-0 h-0.5 bg-[#d8a01ef3] transition-[width] duration-150 ease-out"
+                style={{ width: `${progress * 100}%` }}
+            />
 
         </header>
     )
