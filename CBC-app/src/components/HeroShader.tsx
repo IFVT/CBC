@@ -32,6 +32,7 @@ uniform vec2 u_res;
 uniform float u_time;
 uniform float u_scroll;
 uniform vec2 u_mouse;
+uniform float u_variant;
 
 float hash(vec2 p){ p = fract(p*vec2(123.34,456.21)); p += dot(p,p+45.32); return fract(p.x*p.y); }
 float noise(vec2 p){
@@ -47,7 +48,8 @@ float fbm(vec2 p){
 }
 void main(){
   vec2 p = (gl_FragCoord.xy - 0.5*u_res.xy) / min(u_res.x, u_res.y);
-  p *= 2.2;
+  p *= 2.2 + u_variant*0.5;
+  p += u_variant*4.0;             // otra región del ruido -> otras formas
   float t = u_time*0.05;
   vec2 q = vec2(fbm(p + vec2(0.0,t) + u_mouse*0.2), fbm(p + vec2(4.3,-t)));
   float n = fbm(p + 1.8*q + u_scroll*0.5);
@@ -58,13 +60,13 @@ void main(){
   vec3 gold  = vec3(0.847,0.627,0.118);
   vec3 col = mix(deep, green, smoothstep(0.05,0.42,n));
   col = mix(col, sage, smoothstep(0.40,0.72,n));
-  float g = smoothstep(0.66,0.94,n) * (0.5 + 0.7*u_scroll);
-  col = mix(col, gold, clamp(g,0.0,1.0)*0.72);
+  float g = smoothstep(0.64,0.94,n) * (0.5 + 0.7*u_scroll);
+  col = mix(col, gold, clamp(g,0.0,1.0)*(0.72 + 0.28*u_variant));
   gl_FragColor = vec4(col, 1.0);
 }
 `
 
-export default function HeroShader() {
+export default function HeroShader({ variant = "hero" }: { variant?: "hero" | "realestate" }) {
   const ref = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -121,6 +123,7 @@ export default function HeroShader() {
       const uTime = gl.getUniformLocation(prog, "u_time")
       const uScroll = gl.getUniformLocation(prog, "u_scroll")
       const uMouse = gl.getUniformLocation(prog, "u_mouse")
+      gl.uniform1f(gl.getUniformLocation(prog, "u_variant"), variant === "realestate" ? 1 : 0)
 
       const resize = () => {
         let cw = canvas.clientWidth * RES_SCALE
@@ -159,8 +162,10 @@ export default function HeroShader() {
         resize()
         gl.uniform2f(uRes, canvas.width, canvas.height)
         gl.uniform1f(uTime, seconds)
-        const heroH = hero ? hero.offsetHeight : window.innerHeight
-        gl.uniform1f(uScroll, Math.min(Math.max(window.scrollY / heroH, 0), 1))
+        // Progreso relativo a la sección (0 al entrar, 1 al pasarla).
+        // Sirve igual para el Hero (arriba) que para cualquier sección.
+        const rect = hero ? hero.getBoundingClientRect() : { top: 0, height: window.innerHeight }
+        gl.uniform1f(uScroll, Math.min(Math.max(-rect.top / rect.height, 0), 1))
         mouse.x += (target.x - mouse.x) * 0.08
         mouse.y += (target.y - mouse.y) * 0.08
         gl.uniform2f(uMouse, mouse.x, mouse.y)
@@ -226,7 +231,7 @@ export default function HeroShader() {
       clearTimeout(idleId)
       if (teardown) teardown()
     }
-  }, [])
+  }, [variant])
 
   return (
     <canvas

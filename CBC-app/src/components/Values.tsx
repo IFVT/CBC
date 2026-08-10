@@ -1,33 +1,29 @@
 import { useContent } from "../i18n/LanguageContext"
-import { useScrollReveal } from "../hooks/useScrollReveal"
 
 function Values() {
 
     const { VALUES_HEADER, VALUES } = useContent()
-    const refHeader = useScrollReveal()
-    const refGrid = useScrollReveal({ threshold: 0.05 })
 
     return(
         <section
             id="values"
             className="bg-bone text-green-deep py-16 md:py-24 px-6 sm:px-10 lg:px-16"
         >
-            <div
-                className="reveal max-w-7xl mx-auto mb-10 md:mb-20"
-                ref={refHeader}
-            >
+            <div className="max-w-7xl mx-auto mb-10 md:mb-20">
                 <p
+                    data-reveal="fade"
                     className="font-mono text-xs tracking-widest uppercase opacity-60 mb-4"
                 >{VALUES_HEADER.eyebrow}</p>
                 <h2
+                    data-reveal="chars"
                     className="font-serif text-3xl sm:text-4xl lg:text-5xl leading-tight"
                 >{VALUES_HEADER.title}<em className="italic">{VALUES_HEADER.titleItalic}</em></h2>
 
             </div>
 
             <div
-                className="reveal max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 border-t border-b border-green-deep/20"
-                ref={refGrid}
+                data-reveal="fade"
+                className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 border-t border-b border-green-deep/20"
             >
                 {VALUES.map((value)=>(
                     <div

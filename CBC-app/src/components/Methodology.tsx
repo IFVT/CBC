@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useContent } from "../i18n/LanguageContext";
-import { useScrollReveal } from "../hooks/useScrollReveal";
 
 function Methodology()  {
 
@@ -10,9 +9,6 @@ function Methodology()  {
     const [isTransitioning, setIsTransitioning] = useState(false)
     const [progress, setProgress] = useState(0)
     const [isPaused, setIsPaused] = useState(false)
-
-    const refHeader = useScrollReveal()
-    const refRail = useScrollReveal({ threshold: 0.1 })
 
     const handleStepChange = (index: number) => {
         setIsTransitioning(true)
@@ -59,20 +55,20 @@ function Methodology()  {
             className="bg-cream text-green-deep py-16 md:py-24 px-6 sm:px-10 lg:px-16"
         >
             {/* Header */}
-            <div ref={refHeader} className="reveal max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16 mb-12 md:mb-20">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16 mb-12 md:mb-20">
                 <div className="flex flex-col gap-4 md:order-1 order-2">
-                    <p className="font-mono text-xs tracking-widest uppercase opacity-60">{METHODOLOGY_HEADER.eyebrow}</p>
-                    <p className="text-sm leading-relaxed opacity-70 max-w-sm">{METHODOLOGY_HEADER.lede}</p>
+                    <p data-reveal="fade" className="font-mono text-xs tracking-widest uppercase opacity-60">{METHODOLOGY_HEADER.eyebrow}</p>
+                    <p data-reveal="fade" className="text-sm leading-relaxed opacity-70 max-w-sm">{METHODOLOGY_HEADER.lede}</p>
                 </div>
                 <div className="flex items-end md:order-2 order-1">
-                    <h2 className="font-serif text-4xl sm:text-6xl lg:text-8xl leading-tight">
+                    <h2 data-reveal="chars" className="font-serif text-4xl sm:text-6xl lg:text-8xl leading-tight">
                         {METHODOLOGY_HEADER.title} <em className="italic">{METHODOLOGY_HEADER.titleItalic}</em> {METHODOLOGY_HEADER.titleEnd}
                     </h2>
                 </div>
             </div>
 
             {/* Rail horizontal */}
-            <div ref={refRail} className="reveal max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 border-t border-green-deep/20">
+            <div data-reveal="fade" className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 border-t border-green-deep/20">
                 {METHODOLOGY_STEP.map((step) => (
                     <button
                         type="button"

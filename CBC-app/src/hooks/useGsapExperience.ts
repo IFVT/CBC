@@ -104,19 +104,17 @@ export function useGsapExperience() {
           gsap.utils.toArray<HTMLElement>('[data-reveal="chars"]').forEach((el) => {
             const split = new SplitText(el, { type: "words,chars" })
             gsap.set(el, { opacity: 1 })
-            gsap.set(split.chars, { display: "inline-block" })
-            gsap.fromTo(
-              split.chars,
-              { opacity: 0, yPercent: 60 },
-              {
-                opacity: 1,
-                yPercent: 0,
-                duration: 0.5,
-                ease: "power3.out",
-                stagger: 0.02,
-                scrollTrigger: { trigger: el, start: "top 85%", once: true },
-              },
-            )
+            // Ocultamos las letras YA (no vía immediateRender del tween, que
+            // ScrollTrigger no aplica) para que no se vean antes del scroll.
+            gsap.set(split.chars, { display: "inline-block", opacity: 0, yPercent: 60 })
+            gsap.to(split.chars, {
+              opacity: 1,
+              yPercent: 0,
+              duration: 0.5,
+              ease: "power3.out",
+              stagger: 0.02,
+              scrollTrigger: { trigger: el, start: "top 85%", once: true },
+            })
           })
           ScrollTrigger.refresh()
         })

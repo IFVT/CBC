@@ -1,18 +1,16 @@
 import { useContent } from "../i18n/LanguageContext";
-import { useScrollReveal } from "../hooks/useScrollReveal"
 
 function VisionMission() {
 
     const { MISSION, VISION } = useContent()
-    const refGrid = useScrollReveal({ threshold: 0.05 })
 
     return(
         <section
-            ref={refGrid}
             id="about"
-            className="reveal grid grid-cols-1 md:grid-cols-2 text-cream"
+            className="grid grid-cols-1 md:grid-cols-2 text-cream"
         >
             <div
+                data-reveal="fade"
                 className="bg-green px-6 sm:px-10 lg:px-16 py-16 md:py-24 flex flex-col gap-6 md:gap-8 border-b md:border-b-0 md:border-r border-green-soft"
             >
                 <p
@@ -24,6 +22,7 @@ function VisionMission() {
             </div>
 
             <div
+                data-reveal="fade"
                 className="bg-green-mid px-6 sm:px-10 lg:px-16 py-16 md:py-24 flex flex-col gap-6 md:gap-8"
             >
                 <p

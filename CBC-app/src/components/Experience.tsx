@@ -1,11 +1,7 @@
 import { useContent } from "../i18n/LanguageContext"
-import { useScrollReveal } from "../hooks/useScrollReveal"
 
 function Experience() {
     const { EXPERIENCE, CLIENTS } = useContent()
-    const refLeft = useScrollReveal()
-    const refRight = useScrollReveal({ threshold: 0.1 })
-    const refGrid = useScrollReveal({ threshold: 0.05 })
 
     return(
         <section
@@ -14,17 +10,17 @@ function Experience() {
         >
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 mb-12 md:mb-20">
 
-                <div ref={refLeft} className="reveal">
-                    <p className="font-mono text-xs tracking-widest uppercase opacity-60 flex items-center gap-3">
+                <div>
+                    <p data-reveal="fade" className="font-mono text-xs tracking-widest uppercase opacity-60 flex items-center gap-3">
                         <span className="w-8 h-px bg-current inline-block"></span>
                         {EXPERIENCE.eyebrow}
                     </p>
-                    <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl leading-tight mt-4">
+                    <h2 data-reveal="chars" className="font-serif text-3xl sm:text-4xl lg:text-5xl leading-tight mt-4">
                         {EXPERIENCE.title} <em className="italic">{EXPERIENCE.titleItalic}</em>.
                     </h2>
                 </div>
 
-                <div ref={refRight} className="reveal flex flex-col justify-end gap-6">
+                <div data-reveal="fade" className="flex flex-col justify-end gap-6">
                     <p className="text-sm leading-relaxed opacity-70 max-w-sm">
                         {EXPERIENCE.lede}
                     </p>
@@ -35,7 +31,7 @@ function Experience() {
 
             </div>
 
-            <div ref={refGrid} className="reveal max-w-7xl mx-auto border-t border-b border-green-deep/20 overflow-hidden group">
+            <div data-reveal="fade" className="max-w-7xl mx-auto border-t border-b border-green-deep/20 overflow-hidden group">
                 <div className="flex w-max animate-marquee group-hover:[animation-play-state:paused]">
                     {[...CLIENTS, ...CLIENTS].map((client, index)=>(
                         <div

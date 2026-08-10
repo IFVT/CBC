@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { useContent, useLang } from "../i18n/LanguageContext"
-import { useScrollReveal } from "../hooks/useScrollReveal"
 
 type Status = "idle" | "submitting" | "success" | "error"
 type FieldKey = "name" | "company" | "email" | "message" | "capabilities"
@@ -21,9 +20,6 @@ function Contact() {
     const [status, setStatus] = useState<Status>("idle")
     const [fieldErrors, setFieldErrors] = useState<Partial<Record<FieldKey, string>>>({})
     const [formError, setFormError] = useState("")
-
-    const refLeft = useScrollReveal()
-    const refRight = useScrollReveal<HTMLFormElement>({ threshold: 0.1 })
 
     const clearError = (key: FieldKey) => {
         setFieldErrors(prev => {
@@ -124,21 +120,21 @@ function Contact() {
             <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
 
                 {/* Columna izquierda */}
-                <div ref={refLeft} className="reveal flex flex-col gap-8 max-w-lg">
+                <div className="flex flex-col gap-8 max-w-lg">
                     <div className="flex flex-col gap-4">
-                        <p className="font-mono text-xs tracking-widest uppercase opacity-60">
+                        <p data-reveal="fade" className="font-mono text-xs tracking-widest uppercase opacity-60">
                             {CONTACT_HEADER.eyebrow}
                         </p>
-                        <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl leading-tight">
+                        <h2 data-reveal="chars" className="font-serif text-3xl sm:text-4xl lg:text-5xl leading-tight">
                             {CONTACT_HEADER.title} <em className="italic">{CONTACT_HEADER.titleItalic}</em>{CONTACT_HEADER.titleTail}
                         </h2>
-                        <p className="text-sm leading-relaxed opacity-60">
+                        <p data-reveal="fade" className="text-sm leading-relaxed opacity-60">
                             {CONTACT_HEADER.lede}
                         </p>
                     </div>
 
                     {/* Metadata de contacto */}
-                    <ul className="flex flex-col gap-3 border-t border-green-soft pt-6 font-mono text-sm">
+                    <ul data-reveal="fade" className="flex flex-col gap-3 border-t border-green-soft pt-6 font-mono text-sm">
                         <li className="flex gap-4">
                             <span className="opacity-50 tracking-widest">E —</span>
                             <span>{CONTACT_META.email}</span>
@@ -155,7 +151,7 @@ function Contact() {
                 </div>
 
                 {/* Columna derecha — Formulario */}
-                <form ref={refRight} onSubmit={handleSubmit} noValidate className="reveal grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 content-start">
+                <form data-reveal="fade" onSubmit={handleSubmit} noValidate className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 content-start">
 
                     {status === "success" ? (
                     /* Panel de confirmación */
