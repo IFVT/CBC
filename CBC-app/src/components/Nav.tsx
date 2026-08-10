@@ -10,26 +10,22 @@ function Nav() {
     const [isLight, setIsLight] = useState(false)
     const [menuOpen, setMenuOpen] = useState(false)
     const [activeId, setActiveId] = useState("top")
-    const [progress, setProgress] = useState(0)
 
     useEffect(() => {
         const handleScroll = () => {
             const navHeight = document.getElementById('nav')?.offsetHeight ?? 40
             setIsScrolled(window.scrollY > navHeight)
 
-            const docH = document.documentElement.scrollHeight - window.innerHeight
-            setProgress(docH > 0 ? Math.min(window.scrollY / docH, 1) : 0)
-
+            // ¿el nav está sobre una sección de fondo claro? Usamos rect
+            // (relativo al viewport) para que sea robusto ante cualquier
+            // layout (posiciones fijas, spacers, etc.).
             const lightSections = ['experience', 'methodology', 'values']
-            const scrollY = window.scrollY + navHeight
-
             let onLight = false
             for (const id of lightSections) {
                 const el = document.getElementById(id)
                 if (el) {
-                    const top = el.offsetTop
-                    const bottom = top + el.offsetHeight
-                    if (scrollY >= top && scrollY <= bottom) {
+                    const rect = el.getBoundingClientRect()
+                    if (rect.top <= navHeight && rect.bottom >= navHeight) {
                         onLight = true
                         break
                     }
@@ -177,13 +173,6 @@ function Nav() {
                     </a>
                 </nav>
             )}
-
-            {/* Barra de progreso de scroll (acento oro) */}
-            <span
-                aria-hidden="true"
-                className="absolute bottom-0 left-0 h-0.5 bg-[#d8a01ef3] transition-[width] duration-150 ease-out"
-                style={{ width: `${progress * 100}%` }}
-            />
 
         </header>
     )

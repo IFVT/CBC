@@ -9,7 +9,6 @@ function Methodology()  {
     const [isTransitioning, setIsTransitioning] = useState(false)
     const [progress, setProgress] = useState(0)
     const [isPaused, setIsPaused] = useState(false)
-    const [scrollDriven, setScrollDriven] = useState(false)
 
     const handleStepChange = (index: number) => {
         setIsTransitioning(true)
@@ -32,15 +31,15 @@ function Methodology()  {
     }, [isPaused, activeStep])
 
     useEffect(() => {
-        if (isPaused || scrollDriven) return
+        if (isPaused) return
         const interval = setInterval(() => {
             handleStepChange((activeStep + 1) % METHODOLOGY_STEP.length)
         }, 6000)
         return () => clearInterval(interval)
-    }, [activeStep, isPaused, scrollDriven])
+    }, [activeStep, isPaused])
 
     useEffect(() => {
-        if (isPaused || scrollDriven) return
+        if (isPaused) return
         const tick = setInterval(() => {
             setProgress(prev => {
                 if (prev >= 100) return 0
@@ -48,65 +47,7 @@ function Methodology()  {
             })
         }, 60)
         return () => clearInterval(tick)
-    }, [activeStep, isPaused, scrollDriven])
-
-    // Pin + scroll: en desktop la sección se fija y las fases avanzan con
-    // el scroll (reemplaza el autoplay). Móvil y reduced-motion conservan
-    // el autoplay.
-    useEffect(() => {
-        if (typeof window === "undefined") return
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
-        if (!window.matchMedia("(min-width: 1024px)").matches) return
-
-        let cancelled = false
-        let cleanup = () => {}
-
-        ;(async () => {
-            let gsapMod, stMod
-            try {
-                ;[gsapMod, stMod] = await Promise.all([import("gsap"), import("gsap/ScrollTrigger")])
-            } catch {
-                return
-            }
-            if (cancelled) return
-            const gsap = gsapMod.gsap ?? gsapMod.default
-            const ScrollTrigger = stMod.ScrollTrigger ?? stMod.default
-            gsap.registerPlugin(ScrollTrigger)
-
-            const section = document.getElementById("methodology")
-            if (!section) return
-            const steps = METHODOLOGY_STEP.length
-            setScrollDriven(true)
-            let current = -1
-
-            const st = ScrollTrigger.create({
-                trigger: section,
-                start: "top top",
-                end: "+=" + (steps - 1) * 100 + "%",
-                pin: true,
-                pinSpacing: true,
-                anticipatePin: 1,
-                onUpdate: (self) => {
-                    const step = Math.min(Math.floor(self.progress * steps), steps - 1)
-                    if (step !== current) {
-                        current = step
-                        setActiveStep(step)
-                    }
-                },
-            })
-            ScrollTrigger.refresh()
-
-            cleanup = () => {
-                st.kill()
-                setScrollDriven(false)
-            }
-        })()
-
-        return () => {
-            cancelled = true
-            cleanup()
-        }
-    }, [METHODOLOGY_STEP.length])
+    }, [activeStep, isPaused])
 
     return (
         <section
@@ -144,7 +85,7 @@ function Methodology()  {
                             {String(step.number).padStart(2, '0')}
                         </p>
                         <p className="font-serif text-base">{step.title}</p>
-                        {activeStep === step.number - 1 && !scrollDriven && (
+                        {activeStep === step.number - 1 && (
                             <div
                                 className="absolute bottom-0 left-0 h-0.5 bg-cream transition-all duration-75"
                                 style={{ width: `${progress}%` }}
