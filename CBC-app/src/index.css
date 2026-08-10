@@ -56,6 +56,16 @@ body {
   animation: fadeUp 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
 }
 
+/* Reveal por scroll con GSAP. Oculto antes del paint (via .js); GSAP lo
+   revela al entrar en pantalla. `.no-reveal` es el fallback si GSAP no
+   carga; sin JS o con reduced-motion, el texto se ve normal. */
+.js [data-reveal] {
+  opacity: 0;
+}
+.no-reveal [data-reveal] {
+  opacity: 1 !important;
+}
+
 /* Entrada del Hero — solo transform/opacity. Estado base (sin .js) = visible,
    así que sin JS o si algo falla, el contenido se ve igual. */
 @keyframes heroWordRise {
@@ -196,6 +206,10 @@ html.lenis body {
 /* Respeta a quien pidio menos movimiento: se ve todo, sin animar nada. */
 @media (prefers-reduced-motion: reduce) {
   .js .reveal {
+    opacity: 1;
+  }
+
+  .js [data-reveal] {
     opacity: 1;
   }
 

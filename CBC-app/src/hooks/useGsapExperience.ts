@@ -15,21 +15,35 @@ export function useGsapExperience() {
     if (typeof window === "undefined") return
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
 
+    const root = document.documentElement
+    // Failsafe: si GSAP no monta los reveals a tiempo (o falla la carga del
+    // chunk), mostramos TODO el texto igual — nunca se queda oculto.
+    const failsafe = window.setTimeout(() => root.classList.add("no-reveal"), 2600)
+
     let cancelled = false
     let cleanup = () => {}
 
     ;(async () => {
-      const [lenisMod, gsapMod, stMod] = await Promise.all([
-        import("lenis"),
-        import("gsap"),
-        import("gsap/ScrollTrigger"),
-      ])
+      let lenisMod, gsapMod, stMod, splitMod
+      try {
+        ;[lenisMod, gsapMod, stMod, splitMod] = await Promise.all([
+          import("lenis"),
+          import("gsap"),
+          import("gsap/ScrollTrigger"),
+          import("gsap/SplitText"),
+        ])
+      } catch {
+        window.clearTimeout(failsafe)
+        root.classList.add("no-reveal")
+        return
+      }
       if (cancelled) return
 
       const Lenis = lenisMod.default
       const gsap = gsapMod.gsap ?? gsapMod.default
       const ScrollTrigger = stMod.ScrollTrigger ?? stMod.default
-      gsap.registerPlugin(ScrollTrigger)
+      const SplitText = splitMod.SplitText ?? splitMod.default
+      gsap.registerPlugin(ScrollTrigger, SplitText)
 
       // --- Scroll suave (Lenis) + sincronía con ScrollTrigger ---
       const lenis = new Lenis({ lerp: 0.1, smoothWheel: true })
@@ -65,6 +79,51 @@ export function useGsapExperience() {
           gsap.to(wrap, { ...(moves[i] ?? moves[0]), ease: "none", scrollTrigger: st })
         })
       })
+      window.clearTimeout(failsafe)
+
+      // --- Reveal de texto al hacer scroll ---
+      // Se monta cuando la fuente ya cargó y el layout es estable, para que
+      // ScrollTrigger mida bien las posiciones y no se dispare al cargar.
+      const setupReveals = () => {
+        ctx.add(() => {
+          // Cuerpo: fade-up limpio.
+          gsap.utils.toArray<HTMLElement>('[data-reveal="fade"]').forEach((el) => {
+            gsap.fromTo(
+              el,
+              { opacity: 0, y: 26 },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.7,
+                ease: "power2.out",
+                scrollTrigger: { trigger: el, start: "top 88%", once: true },
+              },
+            )
+          })
+          // Títulos / líneas clave: reveal letra a letra.
+          gsap.utils.toArray<HTMLElement>('[data-reveal="chars"]').forEach((el) => {
+            const split = new SplitText(el, { type: "words,chars" })
+            gsap.set(el, { opacity: 1 })
+            gsap.set(split.chars, { display: "inline-block" })
+            gsap.fromTo(
+              split.chars,
+              { opacity: 0, yPercent: 60 },
+              {
+                opacity: 1,
+                yPercent: 0,
+                duration: 0.5,
+                ease: "power3.out",
+                stagger: 0.02,
+                scrollTrigger: { trigger: el, start: "top 85%", once: true },
+              },
+            )
+          })
+          ScrollTrigger.refresh()
+        })
+      }
+      const fonts = (document as Document & { fonts?: FontFaceSet }).fonts
+      if (fonts && fonts.ready) fonts.ready.then(setupReveals)
+      else setupReveals()
 
       // --- Parallax con el mouse (solo puntero fino) ---
       let mouseCleanup = () => {}
@@ -104,6 +163,8 @@ export function useGsapExperience() {
 
     return () => {
       cancelled = true
+      window.clearTimeout(failsafe)
+      root.classList.remove("no-reveal")
       cleanup()
     }
   }, [])

@@ -1,20 +1,18 @@
 import { useContent } from "../i18n/LanguageContext"
-import { useScrollReveal } from "../hooks/useScrollReveal"
 
 function Capabilities() {
 
     const { CAPABILITIES, CAPABILITIES_HEADER } = useContent()
-    const refGrid = useScrollReveal({ threshold: 0.05 })
 
     return(
         <section id="capabilities" className="bg-green py-16 md:py-24 px-6 sm:px-10 lg:px-16 text-cream">
 
-            <h2 className="mb-4 md:mb-12 text-4xl sm:text-5xl lg:text-6xl font-serif leading-tight text-left md:text-right md:pr-16">{CAPABILITIES_HEADER.title}</h2>
+            <h2 data-reveal="chars" className="mb-4 md:mb-12 text-4xl sm:text-5xl lg:text-6xl font-serif leading-tight text-left md:text-right md:pr-16">{CAPABILITIES_HEADER.title}</h2>
 
-            <p className="mb-8 md:mb-12 font-mono text-xs tracking-widest uppercase opacity-60 text-left md:text-right md:pr-16">
+            <p data-reveal="fade" className="mb-8 md:mb-12 font-mono text-xs tracking-widest uppercase opacity-60 text-left md:text-right md:pr-16">
                 {CAPABILITIES_HEADER.subtitle}
             </p>
-            <div ref={refGrid} className="reveal grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-t border-green-soft">
+            <div data-reveal="fade" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-t border-green-soft">
 
                 {CAPABILITIES.map((cap)=>(
                     <div
