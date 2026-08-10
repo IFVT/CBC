@@ -22,7 +22,7 @@ function Values() {
             </div>
 
             <div
-                data-reveal="fade"
+                data-reveal="stagger"
                 className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 border-t border-b border-green-deep/20"
             >
                 {VALUES.map((value)=>(

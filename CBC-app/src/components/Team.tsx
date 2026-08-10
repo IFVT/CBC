@@ -12,7 +12,7 @@ function Team() {
                 </h2>
             </div>
 
-            <div data-reveal="fade" className="max-w-7xl mx-auto border-t border-green-deep/20">
+            <div data-reveal="stagger" className="max-w-7xl mx-auto border-t border-green-deep/20">
                 {TEAM.map((member) => (
                     <div key={member.name} className="grid grid-cols-1 md:grid-cols-3 md:items-baseline gap-1 md:gap-0 py-5 md:py-6 border-b border-green-deep/20 md:hover:px-4 transition-all duration-300">
                         <p className="font-serif text-xl sm:text-2xl">{member.name}</p>

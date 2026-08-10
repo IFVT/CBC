@@ -100,6 +100,7 @@ function Nav() {
                 </div>
 
                 <a
+                    data-magnetic
                     href="#contact"
                     className="hidden sm:flex font-mono text-xs tracking-widest uppercase border border-current px-5 py-3 hover:bg-current hover:text-cream transition-colors items-center gap-2"
                 >

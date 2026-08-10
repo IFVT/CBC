@@ -55,10 +55,10 @@ function Hero() {
                     </h1>
                     <p className="hero-fade text-sm sm:text-base leading-relaxed opacity-70 text-cream max-w-lg" style={{ animationDelay: `${0.05 + total * 0.018 + 0.04}s` }}>{HERO.lede}</p>
                     <div className="hero-fade flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-2" style={{ animationDelay: `${0.05 + total * 0.018 + 0.14}s` }}>
-                        <a href={HERO.cta1.href} className="text-center bg-cream text-green-deep px-6 py-3 font-mono text-xs tracking-widest uppercase hover:opacity-90 transition-opacity">
+                        <a data-magnetic href={HERO.cta1.href} className="text-center bg-cream text-green-deep px-6 py-3 font-mono text-xs tracking-widest uppercase hover:opacity-90 transition-opacity">
                             {HERO.cta1.label}
                         </a>
-                        <a href={HERO.cta2.href} className="text-center border border-cream text-cream px-6 py-3 font-mono text-xs tracking-widest uppercase opacity-70 hover:opacity-100 transition-opacity">
+                        <a data-magnetic href={HERO.cta2.href} className="text-center border border-cream text-cream px-6 py-3 font-mono text-xs tracking-widest uppercase opacity-70 hover:opacity-100 transition-opacity">
                             {HERO.cta2.label}
                         </a>
                     </div>

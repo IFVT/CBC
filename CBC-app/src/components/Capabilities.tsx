@@ -12,7 +12,7 @@ function Capabilities() {
             <p data-reveal="fade" className="mb-8 md:mb-12 font-mono text-xs tracking-widest uppercase opacity-60 text-left md:text-right md:pr-16">
                 {CAPABILITIES_HEADER.subtitle}
             </p>
-            <div data-reveal="fade" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-t border-green-soft">
+            <div data-reveal="stagger" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-t border-green-soft">
 
                 {CAPABILITIES.map((cap)=>(
                     <div

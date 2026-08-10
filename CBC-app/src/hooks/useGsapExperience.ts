@@ -100,6 +100,21 @@ export function useGsapExperience() {
               },
             )
           })
+          // Grillas: las tarjetas (hijos) entran escalonadas.
+          gsap.utils.toArray<HTMLElement>('[data-reveal="stagger"]').forEach((el) => {
+            const items = Array.from(el.children) as HTMLElement[]
+            gsap.set(el, { opacity: 1 })
+            gsap.set(items, { opacity: 0, y: 24 })
+            gsap.to(items, {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              ease: "power2.out",
+              stagger: 0.08,
+              scrollTrigger: { trigger: el, start: "top 85%", once: true },
+            })
+          })
+
           // Títulos / líneas clave: reveal letra a letra.
           gsap.utils.toArray<HTMLElement>('[data-reveal="chars"]').forEach((el) => {
             const split = new SplitText(el, { type: "words,chars" })
@@ -151,8 +166,49 @@ export function useGsapExperience() {
         }
       }
 
+      // --- Scroll suave al hacer clic en anclas (Lenis) ---
+      const onAnchorClick = (e: MouseEvent) => {
+        const a = (e.target as HTMLElement)?.closest?.('a[href^="#"]') as HTMLAnchorElement | null
+        if (!a) return
+        const href = a.getAttribute("href")
+        if (!href || href === "#") return
+        const target = document.querySelector(href)
+        if (!target) return
+        e.preventDefault()
+        const nav = document.getElementById("nav")
+        const offset = nav ? -nav.offsetHeight - 12 : -80
+        lenis.scrollTo(target as HTMLElement, { offset, duration: 1.1 })
+      }
+      document.addEventListener("click", onAnchorClick)
+
+      // --- Botones magnéticos (solo puntero fino) ---
+      const magneticCleanups: Array<() => void> = []
+      if (window.matchMedia("(pointer: fine)").matches) {
+        gsap.utils.toArray<HTMLElement>("[data-magnetic]").forEach((btn) => {
+          const mx = gsap.quickTo(btn, "x", { duration: 0.4, ease: "power3" })
+          const my = gsap.quickTo(btn, "y", { duration: 0.4, ease: "power3" })
+          const move = (e: PointerEvent) => {
+            const r = btn.getBoundingClientRect()
+            mx((e.clientX - (r.left + r.width / 2)) * 0.3)
+            my((e.clientY - (r.top + r.height / 2)) * 0.3)
+          }
+          const leave = () => {
+            mx(0)
+            my(0)
+          }
+          btn.addEventListener("pointermove", move)
+          btn.addEventListener("pointerleave", leave)
+          magneticCleanups.push(() => {
+            btn.removeEventListener("pointermove", move)
+            btn.removeEventListener("pointerleave", leave)
+          })
+        })
+      }
+
       cleanup = () => {
         mouseCleanup()
+        document.removeEventListener("click", onAnchorClick)
+        magneticCleanups.forEach((fn) => fn())
         ctx.revert()
         gsap.ticker.remove(raf)
         lenis.destroy()

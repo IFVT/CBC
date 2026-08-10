@@ -302,6 +302,7 @@ function Contact() {
                         </p>
                         <button
                             type="submit"
+                            data-magnetic
                             disabled={status === "submitting"}
                             className="bg-green text-cream font-mono text-xs tracking-widest uppercase px-8 py-4 flex items-center gap-3 hover:bg-cream hover:text-green-deep transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
                         >
