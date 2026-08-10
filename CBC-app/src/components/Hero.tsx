@@ -9,7 +9,7 @@ function Hero() {
 
     const titleWords = HERO.title.split(" ")
     const yellowWords = HERO.titleYellow.split(" ")
-    const wordDelay = (i: number) => `${0.1 + i * 0.04}s`
+    const wordDelay = (i: number) => `${0.05 + i * 0.018}s`
     const total = titleWords.length + yellowWords.length
 
     return(
@@ -53,8 +53,8 @@ function Hero() {
                             ))}
                         </em>
                     </h1>
-                    <p className="hero-fade text-sm sm:text-base leading-relaxed opacity-70 text-cream max-w-lg" style={{ animationDelay: `${0.1 + total * 0.04 + 0.05}s` }}>{HERO.lede}</p>
-                    <div className="hero-fade flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-2" style={{ animationDelay: `${0.1 + total * 0.04 + 0.17}s` }}>
+                    <p className="hero-fade text-sm sm:text-base leading-relaxed opacity-70 text-cream max-w-lg" style={{ animationDelay: `${0.05 + total * 0.018 + 0.04}s` }}>{HERO.lede}</p>
+                    <div className="hero-fade flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-2" style={{ animationDelay: `${0.05 + total * 0.018 + 0.14}s` }}>
                         <a href={HERO.cta1.href} className="text-center bg-cream text-green-deep px-6 py-3 font-mono text-xs tracking-widest uppercase hover:opacity-90 transition-opacity">
                             {HERO.cta1.label}
                         </a>

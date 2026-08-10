@@ -91,9 +91,9 @@ body {
 }
 .js .hero-word-inner {
   transform: translateY(120%);
-  animation: heroWordRise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: heroWordRise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-.js .hero-fade { opacity: 0; animation: heroFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.js .hero-fade { opacity: 0; animation: heroFade 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
 /* Fondo aurora: blooms de color a la deriva sobre el verde profundo.
    mix-blend screen hace que iluminen el fondo oscuro (glow). */
