@@ -28,9 +28,6 @@ function Experience() {
                     <p className="text-sm leading-relaxed opacity-70 max-w-sm">
                         {EXPERIENCE.lede}
                     </p>
-                    <a href="#contact" className="font-mono text-xs tracking-widest uppercase underline underline-offset-4 opacity-70 hover:opacity-100 transition-opacity self-start flex items-center gap-2">
-                        {EXPERIENCE.buttonText} →
-                    </a>
                 </div>
 
             </div>
